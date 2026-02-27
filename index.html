@@ -17,14 +17,9 @@
     --online:#00ff88;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    scroll-behavior:smooth;
-}
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
 
-html, body, button, input, textarea, select {
+html, body, button, input {
     font-family:'Minecraft', sans-serif !important;
     letter-spacing:1px;
 }
@@ -38,199 +33,252 @@ body{
     animation:gradientMove 15s ease infinite;
 }
 
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(0,195,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,195,255,0.05) 1px, transparent 1px);
+    background-size:60px 60px;
+    animation:gridMove 25s linear infinite;
+    z-index:-2;
+    pointer-events:none;
+}
+
+@keyframes gridMove{
+    from{background-position:0 0;}
+    to{background-position:60px 60px;}
+}
+
 @keyframes gradientMove{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
 100%{background-position:0% 50%}
 }
 
-/* Loading */
+/* LOADER */
 #loader{
-    position:fixed;
-    inset:0;
-    background:#0a0f1f;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    z-index:9999;
+position:fixed;
+inset:0;
+background:#0a0f1f;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+transition:opacity 0.5s ease;
 }
+
 .loader-bar{
-    width:300px;
-    height:10px;
-    background:#222;
-    margin-top:20px;
-    border-radius:20px;
-    overflow:hidden;
+width:300px;
+height:10px;
+background:#222;
+margin-top:20px;
+border-radius:20px;
+overflow:hidden;
 }
+
 .loader-fill{
-    height:100%;
-    width:0%;
-    background:var(--primary);
-    animation:loadAnim 1s forwards;
+height:100%;
+width:0%;
+background:var(--primary);
+animation:loadAnim 1s forwards;
 }
+
 @keyframes loadAnim{to{width:100%;}}
 
 canvas{
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:-1;
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
 }
 
-/* Navigation */
 nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 40px;
-    background:rgba(0,0,0,0.4);
-    backdrop-filter:blur(8px);
-    position:sticky;
-    top:0;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(8px);
+position:sticky;
+top:0;
 }
+
 nav a{
-    color:white;
-    text-decoration:none;
-    margin-left:20px;
-    font-weight:bold;
-    transition:0.3s;
+color:white;
+text-decoration:none;
+margin-left:20px;
+font-weight:bold;
+transition:0.3s;
 }
+
 nav a:hover{color:var(--primary);}
 
-/* Header */
 header{
-    text-align:center;
-    padding:80px 20px 40px;
-    position:relative;
+text-align:center;
+padding:80px 20px 40px;
 }
-header::before{
-    content:"";
-    position:absolute;
-    top:120px;
-    left:50%;
-    transform:translateX(-50%);
-    width:320px;
-    height:320px;
-    background:radial-gradient(circle, rgba(0,195,255,0.35) 0%, transparent 70%);
-    filter:blur(60px);
-    z-index:-1;
-}
+
 header img{
-    width:140px;
-    border-radius:20px;
-    margin-bottom:20px;
-    box-shadow:0 0 25px rgba(0,195,255,0.6);
+width:140px;
+border-radius:20px;
+margin-bottom:20px;
+box-shadow:0 0 25px rgba(0,195,255,0.6);
 }
-header h1{
-    font-size:3rem;
-    color:var(--primary);
-}
-header p{opacity:0.8;margin-top:10px;}
+
+header h1{font-size:3rem;color:var(--primary);}
 
 .platform-badge{
-    display:inline-block;
-    padding:8px 16px;
-    border-radius:20px;
-    background:rgba(0,195,255,0.2);
-    margin-top:15px;
-    font-size:0.9rem;
+display:inline-block;
+padding:8px 16px;
+border-radius:20px;
+background:rgba(0,195,255,0.2);
+margin-top:15px;
+font-size:0.9rem;
 }
 
-/* Online Status */
-.status{
-    margin-top:10px;
-    font-size:0.9rem;
-}
+.status{margin-top:10px;font-size:0.9rem;}
+
 .status-dot{
-    display:inline-block;
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:var(--online);
-    margin-right:6px;
+display:inline-block;
+width:10px;height:10px;
+border-radius:50%;
+background:var(--online);
+margin-right:6px;
 }
 
-/* Hero */
 .hero{text-align:center;padding:60px 20px;}
+
 .ip-box{
-    background:var(--accent);
-    padding:20px 30px;
-    border-radius:16px;
-    font-size:1.5rem;
-    margin:20px auto;
-    display:inline-block;
-    box-shadow:0 0 20px rgba(0,195,255,0.4);
+background:var(--accent);
+padding:20px 30px;
+border-radius:16px;
+font-size:1.5rem;
+margin:20px auto;
+display:inline-block;
+box-shadow:0 0 20px rgba(0,195,255,0.4);
 }
+
 .copy-btn{
-    padding:18px 40px;
-    font-size:1.2rem;
-    border:none;
-    border-radius:30px;
-    background:var(--primary);
-    cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 0 20px rgba(0,195,255,0.5);
+padding:16px 35px;
+font-size:1rem;
+border:none;
+border-radius:30px;
+background:var(--primary);
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 20px rgba(0,195,255,0.5);
 }
+
 .copy-btn:hover{
-    transform:scale(1.08);
-    box-shadow:0 0 35px rgba(0,195,255,0.9);
+transform:scale(1.08);
+box-shadow:0 0 35px rgba(0,195,255,0.9);
 }
-.copy-btn:active{transform:scale(0.95);}
 
-/* Sections */
-.section{padding:80px 40px;max-width:1100px;margin:auto;}
+.section{
+padding:80px 40px;
+max-width:1100px;
+margin:auto;
+}
+
 .features{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
 }
-.card{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:20px;
-    transition:0.3s;
-    backdrop-filter:blur(6px);
-}
-.card:hover{
-    transform:translateY(-10px);
-    background:rgba(255,255,255,0.1);
-    box-shadow:0 0 30px rgba(0,195,255,0.6);
-}
-.card h3{margin-bottom:15px;color:var(--primary);}
 
-.stats{
-    display:flex;
-    justify-content:space-around;
-    text-align:center;
-    margin-top:50px;
-    flex-wrap:wrap;
-    gap:30px;
+.store-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
 }
-.stat-number{font-size:2.5rem;color:var(--primary);}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:30px;
+border-radius:20px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+background:rgba(0,195,255,0.15);
+}
+
+.price{
+font-size:2rem;
+margin:15px 0;
+color:var(--primary);
+}
+
+.buy-btn{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:var(--primary);
+cursor:pointer;
+transition:0.3s;
+}
+
+.buy-btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px rgba(0,195,255,0.8);
+}
+
+/* CONTACT */
+.contact-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.contact-btn{
+display:block;
+text-align:center;
+padding:20px;
+border-radius:16px;
+text-decoration:none;
+color:white;
+font-size:1.1rem;
+transition:0.3s;
+}
+
+.discord{background:#5865F2;}
+.email{background:#ff4d4d;}
+.youtube{background:#ff0000;}
+
+.contact-btn:hover{
+transform:scale(1.05);
+filter:brightness(1.2);
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9998;
+}
+
+.modal-content{
+background:var(--secondary);
+padding:40px;
+border-radius:20px;
+text-align:center;
+max-width:400px;
+box-shadow:0 0 30px rgba(0,195,255,0.6);
+}
 
 footer{
-    text-align:center;
-    padding:40px;
-    background:rgba(0,0,0,0.4);
-    margin-top:60px;
-}
-.socials a{
-    margin:0 10px;
-    color:var(--primary);
-    text-decoration:none;
-    font-weight:bold;
-}
-
-/* Scroll Animation */
-.fade-up{
-    opacity:0;
-    transform:translateY(40px);
-    transition:all 0.8s ease;
-}
-.fade-up.show{
-    opacity:1;
-    transform:translateY(0);
+text-align:center;
+padding:40px;
+background:rgba(0,0,0,0.4);
+margin-top:60px;
 }
 </style>
 </head>
@@ -247,90 +295,139 @@ footer{
 <div><strong>TSFAlex SMP</strong></div>
 <div>
 <a href="#features">Features</a>
-<a href="#join">How To Join</a>
-<a href="#community">Community</a>
+<a href="#store">Store</a>
+<a href="#contact">Contact</a>
 </div>
 </nav>
 
-<header class="fade-up">
+<header>
 <img src="/server_image.png" alt="Server Logo">
 <h1>TSFAlex SMP</h1>
 <p>Vanilla Survival • Friendly Community • 24/7 Online</p>
-<div class="platform-badge">Available on Java & Bedrock Edition</div>
-<div class="status"><span class="status-dot"></span>Server Online</div>
+<div class="platform-badge">Available on Java & Bedrock</div>
+<div class="status">
+<span class="status-dot"></span>
+<span id="serverStatusText">Checking status...</span>
+</div>
 </header>
 
-<section class="hero fade-up">
-<h2>Play Now — No Mods Required</h2>
-<p style="opacity:0.8;margin-top:10px;">Cross-platform survival with an active community</p>
+<section class="hero">
+<h2>Join Now</h2>
 <div class="ip-box" id="serverIP"></div>
 <button class="copy-btn" onclick="copyIP()">Copy Server IP</button>
-<div id="copyStatus" style="margin-top:15px;font-weight:bold;"></div>
-
-<div class="stats">
-<div><div class="stat-number" data-target="183">0</div><p>Members</p></div>
-<div><div class="stat-number" data-target="24">0</div><p>Hours Online</p></div>
-<div><div class="stat-number" data-target="137">0</div><p>Events Hosted</p></div>
-</div>
+<p style="margin-top:15px;">
+Players Online: <strong id="playerCount">0</strong>
+</p>
+<br>
+<button class="copy-btn" onclick="openModal()">Quick Join</button>
 </section>
 
-<section class="section fade-up" id="features">
+<section class="section" id="features">
 <h2 style="text-align:center;margin-bottom:40px;">Server Features</h2>
 <div class="features">
-<div class="card fade-up"><h3>Pure Vanilla</h3><p>No mods required. Fully cross-platform survival experience.</p></div>
-<div class="card fade-up"><h3>Active Community</h3><p>Respectful chat and voice communication encouraged.</p></div>
-<div class="card fade-up"><h3>Events</h3><p>Community builds, competitions, and seasonal events.</p></div>
-<div class="card fade-up"><h3>Stable Hosting</h3><p>Optimised performance and reliable uptime.</p></div>
+<div class="card"><h3>Pure Vanilla</h3></div>
+<div class="card"><h3>Active Community</h3></div>
+<div class="card"><h3>Events</h3></div>
+<div class="card"><h3>Stable Hosting</h3></div>
 </div>
 </section>
 
+<section class="section" id="store">
+<h2 style="text-align:center;margin-bottom:40px;">Server Store</h2>
+<div class="store-grid">
+
+<div class="card">
+<h3>VIP Rank</h3>
+<div class="price">$4.99</div>
+<p>VIP Chat Tag<br>2 Extra Homes<br>Colored Name</p>
+<button class="buy-btn">Buy VIP</button>
+</div>
+
+<div class="card">
+<h3>MVP Rank</h3>
+<div class="price">$9.99</div>
+<p>Everything in VIP<br>5 Extra Homes<br>Priority Queue<br>Special Kit</p>
+<button class="buy-btn">Buy MVP</button>
+</div>
+
+<div class="card">
+<h3>Legend Rank</h3>
+<div class="price">$19.99</div>
+<p>Everything in MVP<br>Custom Nickname<br>Exclusive Cosmetics<br>Beta Features</p>
+<button class="buy-btn">Buy Legend</button>
+</div>
+
+</div>
+</section>
+
+<section class="section" id="contact">
+<h2 style="text-align:center;margin-bottom:40px;">Get In Touch</h2>
+<div class="contact-grid">
+
+<a href="https://discord.gg/YOURINVITE" target="_blank" class="contact-btn discord">
+Join Our Discord
+</a>
+
+<a href="mailto:youremail@example.com" class="contact-btn email">
+Email Us
+</a>
+
+<a href="https://youtube.com/@YOURCHANNEL" target="_blank" class="contact-btn youtube">
+YouTube Channel
+</a>
+
+</div>
+</section>
+
+<div id="joinModal" class="modal">
+<div class="modal-content">
+<h2>Ready to Join?</h2>
+<p>Copy the IP and start playing.</p>
+<br>
+<button class="copy-btn" onclick="copyIP()">Copy IP</button>
+<br><br>
+<button class="copy-btn" onclick="closeModal()">Close</button>
+</div>
+</div>
+
 <footer>
-© 2026 TSFAlex SMP • All Rights Reserved
+© 2026 TSFAlex SMP
 </footer>
 
 <script>
 const CONFIG={serverIP:"tsfalex.feathermc.gg"};
 document.getElementById("serverIP").textContent=CONFIG.serverIP;
 
-function copyIP(){
-navigator.clipboard.writeText(CONFIG.serverIP).then(()=>{
-const status=document.getElementById("copyStatus");
-status.textContent="Copied to clipboard";
-setTimeout(()=>status.textContent="",2000);
-});
-}
+function copyIP(){navigator.clipboard.writeText(CONFIG.serverIP);}
+function openModal(){document.getElementById("joinModal").style.display="flex";}
+function closeModal(){document.getElementById("joinModal").style.display="none";}
 
 window.addEventListener("load",()=>{
+const loader=document.getElementById("loader");
 setTimeout(()=>{
-document.getElementById("loader").style.display="none";
-},1000);
+loader.style.opacity="0";
+setTimeout(()=>{loader.style.display="none";},500);
+},800);
 });
 
-/* Counter */
-document.querySelectorAll('.stat-number').forEach(counter=>{
-const update=()=>{
-const target=+counter.dataset.target;
-const current=+counter.innerText;
-const increment=target/100;
-if(current<target){
-counter.innerText=Math.ceil(current+increment);
-setTimeout(update,20);
+async function fetchStatus(){
+try{
+const res=await fetch(`https://api.mcsrvstat.us/2/${CONFIG.serverIP}`);
+const data=await res.json();
+if(data.online){
+document.getElementById("serverStatusText").textContent="Server Online";
+document.getElementById("playerCount").textContent=
+data.players.online+" / "+data.players.max;
 }else{
-counter.innerText=target;
+document.getElementById("serverStatusText").textContent="Server Offline";
 }
-};
-update();
-});
+}catch{
+document.getElementById("serverStatusText").textContent="Status Unavailable";
+}
+}
+fetchStatus();
+setInterval(fetchStatus,30000);
 
-/* Scroll Animation */
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){entry.target.classList.add("show");}
-});
-},{threshold:0.2});
-document.querySelectorAll(".fade-up").forEach(el=>observer.observe(el));
-
-/* Particles */
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
