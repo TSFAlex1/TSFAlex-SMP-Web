@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TSFAlex SMP</title>
 
-<!-- Working Minecraft Web Font -->
+<link rel="icon" type="image/png" href="/favicon.png">
 <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 
 <style>
@@ -14,9 +14,9 @@
     --secondary:#0a0f1f;
     --accent:#16213e;
     --text:#ffffff;
+    --online:#00ff88;
 }
 
-/* Global Reset */
 *{
     margin:0;
     padding:0;
@@ -26,7 +26,7 @@
 
 html, body, button, input, textarea, select {
     font-family:'Minecraft', sans-serif !important;
-    letter-spacing: 1px;
+    letter-spacing:1px;
 }
 
 body{
@@ -44,7 +44,7 @@ body{
 100%{background-position:0% 50%}
 }
 
-/* Loading Screen */
+/* Loading */
 #loader{
     position:fixed;
     inset:0;
@@ -67,7 +67,7 @@ body{
     height:100%;
     width:0%;
     background:var(--primary);
-    animation:loadAnim 2s forwards;
+    animation:loadAnim 1s forwards;
 }
 @keyframes loadAnim{to{width:100%;}}
 
@@ -96,17 +96,28 @@ nav a{
     font-weight:bold;
     transition:0.3s;
 }
-nav a:hover{
-    color:var(--primary);
-}
+nav a:hover{color:var(--primary);}
 
 /* Header */
 header{
     text-align:center;
     padding:80px 20px 40px;
+    position:relative;
+}
+header::before{
+    content:"";
+    position:absolute;
+    top:120px;
+    left:50%;
+    transform:translateX(-50%);
+    width:320px;
+    height:320px;
+    background:radial-gradient(circle, rgba(0,195,255,0.35) 0%, transparent 70%);
+    filter:blur(60px);
+    z-index:-1;
 }
 header img{
-    width:120px;
+    width:140px;
     border-radius:20px;
     margin-bottom:20px;
     box-shadow:0 0 25px rgba(0,195,255,0.6);
@@ -115,10 +126,8 @@ header h1{
     font-size:3rem;
     color:var(--primary);
 }
-header p{
-    opacity:0.8;
-    margin-top:10px;
-}
+header p{opacity:0.8;margin-top:10px;}
+
 .platform-badge{
     display:inline-block;
     padding:8px 16px;
@@ -128,11 +137,22 @@ header p{
     font-size:0.9rem;
 }
 
-/* Hero */
-.hero{
-    text-align:center;
-    padding:60px 20px;
+/* Online Status */
+.status{
+    margin-top:10px;
+    font-size:0.9rem;
 }
+.status-dot{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--online);
+    margin-right:6px;
+}
+
+/* Hero */
+.hero{text-align:center;padding:60px 20px;}
 .ip-box{
     background:var(--accent);
     padding:20px 30px;
@@ -142,7 +162,6 @@ header p{
     display:inline-block;
     box-shadow:0 0 20px rgba(0,195,255,0.4);
 }
-
 .copy-btn{
     padding:18px 40px;
     font-size:1.2rem;
@@ -157,13 +176,10 @@ header p{
     transform:scale(1.08);
     box-shadow:0 0 35px rgba(0,195,255,0.9);
 }
+.copy-btn:active{transform:scale(0.95);}
 
 /* Sections */
-.section{
-    padding:80px 40px;
-    max-width:1100px;
-    margin:auto;
-}
+.section{padding:80px 40px;max-width:1100px;margin:auto;}
 .features{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -179,13 +195,10 @@ header p{
 .card:hover{
     transform:translateY(-10px);
     background:rgba(255,255,255,0.1);
+    box-shadow:0 0 30px rgba(0,195,255,0.6);
 }
-.card h3{
-    margin-bottom:15px;
-    color:var(--primary);
-}
+.card h3{margin-bottom:15px;color:var(--primary);}
 
-/* Stats */
 .stats{
     display:flex;
     justify-content:space-around;
@@ -194,12 +207,8 @@ header p{
     flex-wrap:wrap;
     gap:30px;
 }
-.stat-number{
-    font-size:2.5rem;
-    color:var(--primary);
-}
+.stat-number{font-size:2.5rem;color:var(--primary);}
 
-/* Footer */
 footer{
     text-align:center;
     padding:40px;
@@ -211,6 +220,17 @@ footer{
     color:var(--primary);
     text-decoration:none;
     font-weight:bold;
+}
+
+/* Scroll Animation */
+.fade-up{
+    opacity:0;
+    transform:translateY(40px);
+    transition:all 0.8s ease;
+}
+.fade-up.show{
+    opacity:1;
+    transform:translateY(0);
 }
 </style>
 </head>
@@ -232,54 +252,35 @@ footer{
 </div>
 </nav>
 
-<header>
+<header class="fade-up">
 <img src="/server_image.png" alt="Server Logo">
 <h1>TSFAlex SMP</h1>
 <p>Vanilla Survival • Friendly Community • 24/7 Online</p>
 <div class="platform-badge">Available on Java & Bedrock Edition</div>
+<div class="status"><span class="status-dot"></span>Server Online</div>
 </header>
 
-<section class="hero">
-<h2>Join The Server Now</h2>
+<section class="hero fade-up">
+<h2>Play Now — No Mods Required</h2>
+<p style="opacity:0.8;margin-top:10px;">Cross-platform survival with an active community</p>
 <div class="ip-box" id="serverIP"></div>
 <button class="copy-btn" onclick="copyIP()">Copy Server IP</button>
 <div id="copyStatus" style="margin-top:15px;font-weight:bold;"></div>
 
 <div class="stats">
-<div><div class="stat-number" data-target="150">0</div><p>Members</p></div>
+<div><div class="stat-number" data-target="183">0</div><p>Members</p></div>
 <div><div class="stat-number" data-target="24">0</div><p>Hours Online</p></div>
-<div><div class="stat-number" data-target="100">0</div><p>Events Hosted</p></div>
+<div><div class="stat-number" data-target="137">0</div><p>Events Hosted</p></div>
 </div>
 </section>
 
-<section class="section" id="features">
+<section class="section fade-up" id="features">
 <h2 style="text-align:center;margin-bottom:40px;">Server Features</h2>
 <div class="features">
-<div class="card"><h3>Pure Vanilla</h3><p>No mods required. Fully cross-platform survival experience.</p></div>
-<div class="card"><h3>Active Community</h3><p>Respectful chat and voice communication encouraged.</p></div>
-<div class="card"><h3>Events</h3><p>Community builds, competitions, and seasonal events.</p></div>
-<div class="card"><h3>Stable Hosting</h3><p>Optimised performance and reliable uptime.</p></div>
-</div>
-</section>
-
-<section class="section" id="join">
-<h2 style="text-align:center;margin-bottom:40px;">How To Join</h2>
-<ol style="max-width:600px;margin:auto;font-size:1.1rem;line-height:1.8;">
-<li>Open Minecraft (Java or Bedrock Edition).</li>
-<li>Go to Multiplayer / Servers.</li>
-<li>Click Add Server.</li>
-<li>Paste the Server IP shown above.</li>
-<li>Save and Join.</li>
-</ol>
-</section>
-
-<section class="section" id="community">
-<h2 style="text-align:center;margin-bottom:30px;">Community</h2>
-<p style="text-align:center;max-width:700px;margin:auto;opacity:0.8;">Build massive projects, survive together, and create long-term worlds with dedicated players.</p>
-<div class="socials" style="text-align:center;margin-top:30px;">
-<a href="#">Discord</a>
-<a href="#">YouTube</a>
-<a href="#">TikTok</a>
+<div class="card fade-up"><h3>Pure Vanilla</h3><p>No mods required. Fully cross-platform survival experience.</p></div>
+<div class="card fade-up"><h3>Active Community</h3><p>Respectful chat and voice communication encouraged.</p></div>
+<div class="card fade-up"><h3>Events</h3><p>Community builds, competitions, and seasonal events.</p></div>
+<div class="card fade-up"><h3>Stable Hosting</h3><p>Optimised performance and reliable uptime.</p></div>
 </div>
 </section>
 
@@ -302,14 +303,13 @@ setTimeout(()=>status.textContent="",2000);
 window.addEventListener("load",()=>{
 setTimeout(()=>{
 document.getElementById("loader").style.display="none";
-},2000);
+},1000);
 });
 
-/* Animated Counters */
-const counters=document.querySelectorAll('.stat-number');
-counters.forEach(counter=>{
+/* Counter */
+document.querySelectorAll('.stat-number').forEach(counter=>{
 const update=()=>{
-const target=+counter.getAttribute('data-target');
+const target=+counter.dataset.target;
 const current=+counter.innerText;
 const increment=target/100;
 if(current<target){
@@ -322,7 +322,15 @@ counter.innerText=target;
 update();
 });
 
-/* Particle Background */
+/* Scroll Animation */
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){entry.target.classList.add("show");}
+});
+},{threshold:0.2});
+document.querySelectorAll(".fade-up").forEach(el=>observer.observe(el));
+
+/* Particles */
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
@@ -330,12 +338,7 @@ canvas.height=window.innerHeight;
 
 let particles=[];
 for(let i=0;i<80;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2+1,
-d:Math.random()*1
-});
+particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,d:Math.random()*1});
 }
 
 function draw(){
@@ -345,16 +348,8 @@ particles.forEach(p=>{
 ctx.beginPath();
 ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
 ctx.fill();
-});
-updateParticles();
-}
-function updateParticles(){
-particles.forEach(p=>{
 p.y+=p.d;
-if(p.y>canvas.height){
-p.y=0;
-p.x=Math.random()*canvas.width;
-}
+if(p.y>canvas.height){p.y=0;p.x=Math.random()*canvas.width;}
 });
 }
 setInterval(draw,33);
