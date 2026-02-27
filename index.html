@@ -3,188 +3,364 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSFAlex SMP</title>
 
-<title>TSF Alex SMP</title>
-
-<!-- Minecraft Web Font -->
+<!-- Working Minecraft Web Font -->
 <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 
 <style>
-:root {
-    --server-ip: "tsfalex.feathermc.gg";
+:root{
+    --primary:#00c3ff;
+    --secondary:#0a0f1f;
+    --accent:#16213e;
+    --text:#ffffff;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Global Reset */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
 }
 
-html, body {
-    font-family: 'Minecraft', sans-serif !important;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
-    scroll-behavior: smooth;
+html, body, button, input, textarea, select {
+    font-family:'Minecraft', sans-serif !important;
+}
+
+body{
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+    background:linear-gradient(-45deg,#0a0f1f,#111a33,#0f3460,#16213e);
+    background-size:400% 400%;
+    animation:gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
 /* Loading Screen */
-#loader {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: #0f2027;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    flex-direction: column;
+#loader{
+    position:fixed;
+    inset:0;
+    background:#0a0f1f;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+}
+.loader-bar{
+    width:300px;
+    height:10px;
+    background:#222;
+    margin-top:20px;
+    border-radius:20px;
+    overflow:hidden;
+}
+.loader-fill{
+    height:100%;
+    width:0%;
+    background:var(--primary);
+    animation:loadAnim 2s forwards;
+}
+@keyframes loadAnim{to{width:100%;}}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
 }
 
-.loader-bar {
-    width: 300px;
-    height: 10px;
-    background: #222;
-    margin-top: 20px;
-    overflow: hidden;
+/* Navigation */
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 40px;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(8px);
+    position:sticky;
+    top:0;
+}
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:bold;
+    transition:0.3s;
+}
+nav a:hover{
+    color:var(--primary);
 }
 
-.loader-fill {
-    width: 0%;
-    height: 100%;
-    background: #00ff88;
-    animation: load 2s forwards;
+/* Header */
+header{
+    text-align:center;
+    padding:80px 20px 40px;
+}
+header img{
+    width:120px;
+    border-radius:20px;
+    margin-bottom:20px;
+    box-shadow:0 0 25px rgba(0,195,255,0.6);
+}
+header h1{
+    font-size:3rem;
+    color:var(--primary);
+}
+header p{
+    opacity:0.8;
+    margin-top:10px;
+}
+.platform-badge{
+    display:inline-block;
+    padding:8px 16px;
+    border-radius:20px;
+    background:rgba(0,195,255,0.2);
+    margin-top:15px;
+    font-size:0.9rem;
 }
 
-@keyframes load {
-    to { width: 100%; }
+/* Hero */
+.hero{
+    text-align:center;
+    padding:60px 20px;
+}
+.ip-box{
+    background:var(--accent);
+    padding:20px 30px;
+    border-radius:16px;
+    font-size:1.5rem;
+    margin:20px auto;
+    display:inline-block;
+    box-shadow:0 0 20px rgba(0,195,255,0.4);
 }
 
-/* Hero Section */
-.hero {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
+.copy-btn{
+    padding:18px 40px;
+    font-size:1.2rem;
+    border:none;
+    border-radius:30px;
+    background:var(--primary);
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 0 20px rgba(0,195,255,0.5);
+}
+.copy-btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 35px rgba(0,195,255,0.9);
 }
 
-.hero h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+/* Sections */
+.section{
+    padding:80px 40px;
+    max-width:1100px;
+    margin:auto;
+}
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+.card{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    transition:0.3s;
+    backdrop-filter:blur(6px);
+}
+.card:hover{
+    transform:translateY(-10px);
+    background:rgba(255,255,255,0.1);
+}
+.card h3{
+    margin-bottom:15px;
+    color:var(--primary);
 }
 
-.ip-box {
-    background: rgba(0,0,0,0.4);
-    padding: 15px 30px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
+/* Stats */
+.stats{
+    display:flex;
+    justify-content:space-around;
+    text-align:center;
+    margin-top:50px;
+    flex-wrap:wrap;
+    gap:30px;
+}
+.stat-number{
+    font-size:2.5rem;
+    color:var(--primary);
 }
 
-.ip-box:hover {
-    background: rgba(0,0,0,0.7);
+/* Footer */
+footer{
+    text-align:center;
+    padding:40px;
+    background:rgba(0,0,0,0.4);
+    margin-top:60px;
 }
-
-/* Stats Section */
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    padding: 100px 20px;
-    text-align: center;
-}
-
-.stat h2 {
-    font-size: 3rem;
-    color: #00ff88;
-}
-
-.stat p {
-    margin-top: 10px;
-}
-
-footer {
-    text-align: center;
-    padding: 30px;
-    background: rgba(0,0,0,0.5);
+.socials a{
+    margin:0 10px;
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:bold;
 }
 </style>
 </head>
-
 <body>
 
-<!-- Loading Screen -->
 <div id="loader">
-    <h2>Loading Server...</h2>
-    <div class="loader-bar">
-        <div class="loader-fill"></div>
-    </div>
+<h1>Loading TSFAlex SMP</h1>
+<div class="loader-bar"><div class="loader-fill"></div></div>
 </div>
 
-<!-- Main Content -->
-<section class="hero">
-    <h1>TSF Alex SMP</h1>
+<canvas id="particles"></canvas>
 
-    <div class="ip-box" onclick="copyIP()">
-        Click to Copy IP<br>
-        <strong id="serverIP">tsfalex.feathermc.gg</strong>
-        <br><br>
-        Available on Java & Bedrock
-    </div>
+<nav>
+<div><strong>TSFAlex SMP</strong></div>
+<div>
+<a href="#features">Features</a>
+<a href="#join">How To Join</a>
+<a href="#community">Community</a>
+</div>
+</nav>
+
+<header>
+<img src="server-icon.png" alt="Server Logo">
+<h1>TSFAlex SMP</h1>
+<p>Vanilla Survival • Friendly Community • 24/7 Online</p>
+<div class="platform-badge">Available on Java & Bedrock Edition</div>
+</header>
+
+<section class="hero">
+<h2>Join The Server Now</h2>
+<div class="ip-box" id="serverIP"></div>
+<button class="copy-btn" onclick="copyIP()">Copy Server IP</button>
+<div id="copyStatus" style="margin-top:15px;font-weight:bold;"></div>
+
+<div class="stats">
+<div><div class="stat-number" data-target="150">0</div><p>Members</p></div>
+<div><div class="stat-number" data-target="24">0</div><p>Hours Online</p></div>
+<div><div class="stat-number" data-target="100">0</div><p>Events Hosted</p></div>
+</div>
 </section>
 
-<section class="stats">
-    <div class="stat">
-        <h2 class="counter" data-target="500">0</h2>
-        <p>Total Players Joined</p>
-    </div>
-    <div class="stat">
-        <h2 class="counter" data-target="1200">0</h2>
-        <p>Discord Members</p>
-    </div>
-    <div class="stat">
-        <h2 class="counter" data-target="24">0</h2>
-        <p>Hours Online Daily</p>
-    </div>
+<section class="section" id="features">
+<h2 style="text-align:center;margin-bottom:40px;">Server Features</h2>
+<div class="features">
+<div class="card"><h3>Pure Vanilla</h3><p>No mods required. Fully cross-platform survival experience.</p></div>
+<div class="card"><h3>Active Community</h3><p>Respectful chat and voice communication encouraged.</p></div>
+<div class="card"><h3>Events</h3><p>Community builds, competitions, and seasonal events.</p></div>
+<div class="card"><h3>Stable Hosting</h3><p>Optimised performance and reliable uptime.</p></div>
+</div>
+</section>
+
+<section class="section" id="join">
+<h2 style="text-align:center;margin-bottom:40px;">How To Join</h2>
+<ol style="max-width:600px;margin:auto;font-size:1.1rem;line-height:1.8;">
+<li>Open Minecraft (Java or Bedrock Edition).</li>
+<li>Go to Multiplayer / Servers.</li>
+<li>Click Add Server.</li>
+<li>Paste the Server IP shown above.</li>
+<li>Save and Join.</li>
+</ol>
+</section>
+
+<section class="section" id="community">
+<h2 style="text-align:center;margin-bottom:30px;">Community</h2>
+<p style="text-align:center;max-width:700px;margin:auto;opacity:0.8;">Build massive projects, survive together, and create long-term worlds with dedicated players.</p>
+<div class="socials" style="text-align:center;margin-top:30px;">
+<a href="#">Discord</a>
+<a href="#">YouTube</a>
+<a href="#">TikTok</a>
+</div>
 </section>
 
 <footer>
-    © 2026 TSF Alex SMP — All Rights Reserved
+© 2026 TSFAlex SMP • All Rights Reserved
 </footer>
 
 <script>
-// Loading Screen
-window.addEventListener("load", () => {
-    setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
-    }, 2000);
-});
+const CONFIG={serverIP:"tsfalex.feathermc.gg"};
+document.getElementById("serverIP").textContent=CONFIG.serverIP;
 
-// Copy IP
-function copyIP() {
-    const ip = document.getElementById("serverIP").innerText;
-    navigator.clipboard.writeText(ip);
-    alert("Server IP Copied!");
+function copyIP(){
+navigator.clipboard.writeText(CONFIG.serverIP).then(()=>{
+const status=document.getElementById("copyStatus");
+status.textContent="Copied to clipboard";
+setTimeout(()=>status.textContent="",2000);
+});
 }
 
-// Animated Counter
-const counters = document.querySelectorAll('.counter');
+window.addEventListener("load",()=>{
+setTimeout(()=>{
+document.getElementById("loader").style.display="none";
+},2000);
+});
 
-counters.forEach(counter => {
-    const updateCount = () => {
-        const target = +counter.getAttribute('data-target');
-        const count = +counter.innerText;
-        const increment = target / 200;
+/* Animated Counters */
+const counters=document.querySelectorAll('.stat-number');
+counters.forEach(counter=>{
+const update=()=>{
+const target=+counter.getAttribute('data-target');
+const current=+counter.innerText;
+const increment=target/100;
+if(current<target){
+counter.innerText=Math.ceil(current+increment);
+setTimeout(update,20);
+}else{
+counter.innerText=target;
+}
+};
+update();
+});
 
-        if (count < target) {
-            counter.innerText = Math.ceil(count + increment);
-            setTimeout(updateCount, 10);
-        } else {
-            counter.innerText = target;
-        }
-    };
-    updateCount();
+/* Particle Background */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+d:Math.random()*1
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(0,195,255,0.7)";
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+});
+updateParticles();
+}
+function updateParticles(){
+particles.forEach(p=>{
+p.y+=p.d;
+if(p.y>canvas.height){
+p.y=0;
+p.x=Math.random()*canvas.width;
+}
+});
+}
+setInterval(draw,33);
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 });
 </script>
 
