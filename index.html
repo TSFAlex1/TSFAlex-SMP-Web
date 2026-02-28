@@ -183,15 +183,9 @@ max-width:1100px;
 margin:auto;
 }
 
-.features{
+.features, .store-grid, .gallery-grid, .contact-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-
-.store-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:30px;
 }
 
@@ -207,19 +201,44 @@ transform:translateY(-10px);
 background:rgba(0,195,255,0.15);
 }
 
+.badge{
+background:gold;
+color:black;
+padding:4px 10px;
+border-radius:20px;
+font-size:0.7rem;
+display:inline-block;
+margin-bottom:10px;
+}
+
 .price{
 font-size:2rem;
 margin:15px 0;
 color:var(--primary);
 }
 
+.card ul{
+list-style:none;
+line-height:1.6;
+margin-top:10px;
+font-size:0.9rem;
+}
+
+.card ul li::before{
+content:"✔ ";
+color:var(--primary);
+}
+
 .buy-btn{
+display:inline-block;
+width:100%;
+text-align:center;
 margin-top:20px;
 padding:12px 25px;
-border:none;
 border-radius:30px;
 background:var(--primary);
-cursor:pointer;
+color:white;
+text-decoration:none;
 transition:0.3s;
 }
 
@@ -228,13 +247,33 @@ transform:scale(1.05);
 box-shadow:0 0 20px rgba(0,195,255,0.8);
 }
 
-/* CONTACT */
-.contact-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
+/* Gallery */
+.gallery-grid img{
+width:100%;
+border-radius:20px;
+transition:0.3s;
 }
 
+.gallery-grid img:hover{
+transform:scale(1.05);
+}
+
+/* FAQ */
+.faq-item{
+margin-bottom:20px;
+cursor:pointer;
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:15px;
+}
+
+.faq-answer{
+display:none;
+margin-top:10px;
+font-size:0.9rem;
+}
+
+/* CONTACT */
 .contact-btn{
 display:block;
 text-align:center;
@@ -253,6 +292,19 @@ transition:0.3s;
 .contact-btn:hover{
 transform:scale(1.05);
 filter:brightness(1.2);
+}
+
+/* Floating Button */
+.floating-join{
+position:fixed;
+bottom:20px;
+right:20px;
+padding:15px 25px;
+background:var(--primary);
+border-radius:30px;
+cursor:pointer;
+box-shadow:0 0 20px rgba(0,195,255,0.8);
+z-index:9997;
 }
 
 .modal{
@@ -296,6 +348,8 @@ margin-top:60px;
 <div>
 <a href="#features">Features</a>
 <a href="#store">Store</a>
+<a href="#gallery">Gallery</a>
+<a href="#faq">FAQ</a>
 <a href="#contact">Contact</a>
 </div>
 </nav>
@@ -339,60 +393,84 @@ Players Online: <strong id="playerCount">0</strong>
 <div class="card">
 <h3>VIP Rank</h3>
 <div class="price">$4.99</div>
-<p>VIP Chat Tag<br>2 Extra Homes<br>Colored Name</p>
-<button class="buy-btn">Buy VIP</button>
+<ul>
+<li>VIP Chat Tag</li>
+<li>2 Extra Homes</li>
+<li>Colored Name</li>
+</ul>
+<a href="#" class="buy-btn">Buy VIP</a>
 </div>
 
 <div class="card">
+<div class="badge">Most Popular</div>
 <h3>MVP Rank</h3>
 <div class="price">$9.99</div>
-<p>Everything in VIP<br>5 Extra Homes<br>Priority Queue<br>Special Kit</p>
-<button class="buy-btn">Buy MVP</button>
+<ul>
+<li>Everything in VIP</li>
+<li>5 Extra Homes</li>
+<li>Priority Queue</li>
+<li>Special Kit</li>
+</ul>
+<a href="#" class="buy-btn">Buy MVP</a>
 </div>
 
 <div class="card">
 <h3>Legend Rank</h3>
 <div class="price">$19.99</div>
-<p>Everything in MVP<br>Custom Nickname<br>Exclusive Cosmetics<br>Beta Features</p>
-<button class="buy-btn">Buy Legend</button>
+<ul>
+<li>Everything in MVP</li>
+<li>Custom Nickname</li>
+<li>Exclusive Cosmetics</li>
+<li>Beta Features</li>
+</ul>
+<a href="#" class="buy-btn">Buy Legend</a>
 </div>
 
+</div>
+</section>
+
+<section class="section" id="gallery">
+<h2 style="text-align:center;margin-bottom:40px;">Server Gallery</h2>
+<div class="gallery-grid">
+<img src="/screenshot1.jpg">
+<img src="/screenshot2.jpg">
+<img src="/screenshot3.jpg">
+</div>
+</section>
+
+<section class="section" id="faq">
+<h2 style="text-align:center;margin-bottom:40px;">FAQ</h2>
+<div class="faq-item" onclick="toggleFAQ(this)">
+<strong>How do I join?</strong>
+<div class="faq-answer">Copy the IP and add it in Multiplayer.</div>
+</div>
+<div class="faq-item" onclick="toggleFAQ(this)">
+<strong>Is the server cracked?</strong>
+<div class="faq-answer">No. Premium accounts only.</div>
 </div>
 </section>
 
 <section class="section" id="contact">
 <h2 style="text-align:center;margin-bottom:40px;">Get In Touch</h2>
 <div class="contact-grid">
-
-<a href="https://discord.gg/YOURINVITE" target="_blank" class="contact-btn discord">
-Join Our Discord
-</a>
-
-<a href="mailto:youremail@example.com" class="contact-btn email">
-Email Us
-</a>
-
-<a href="https://youtube.com/@YOURCHANNEL" target="_blank" class="contact-btn youtube">
-YouTube Channel
-</a>
-
+<a href="https://discord.gg/YOURINVITE" target="_blank" class="contact-btn discord">Discord</a>
+<a href="mailto:youremail@example.com" class="contact-btn email">Email</a>
+<a href="https://youtube.com/@YOURCHANNEL" target="_blank" class="contact-btn youtube">YouTube</a>
 </div>
 </section>
+
+<div class="floating-join" onclick="openModal()">Join Now</div>
 
 <div id="joinModal" class="modal">
 <div class="modal-content">
 <h2>Ready to Join?</h2>
-<p>Copy the IP and start playing.</p>
-<br>
 <button class="copy-btn" onclick="copyIP()">Copy IP</button>
 <br><br>
 <button class="copy-btn" onclick="closeModal()">Close</button>
 </div>
 </div>
 
-<footer>
-© 2026 TSFAlex SMP
-</footer>
+<footer>© 2026 TSFAlex SMP</footer>
 
 <script>
 const CONFIG={serverIP:"tsfalex.feathermc.gg"};
@@ -401,6 +479,11 @@ document.getElementById("serverIP").textContent=CONFIG.serverIP;
 function copyIP(){navigator.clipboard.writeText(CONFIG.serverIP);}
 function openModal(){document.getElementById("joinModal").style.display="flex";}
 function closeModal(){document.getElementById("joinModal").style.display="none";}
+
+function toggleFAQ(el){
+const ans=el.querySelector(".faq-answer");
+ans.style.display=ans.style.display==="block"?"none":"block";
+}
 
 window.addEventListener("load",()=>{
 const loader=document.getElementById("loader");
@@ -416,8 +499,7 @@ const res=await fetch(`https://api.mcsrvstat.us/2/${CONFIG.serverIP}`);
 const data=await res.json();
 if(data.online){
 document.getElementById("serverStatusText").textContent="Server Online";
-document.getElementById("playerCount").textContent=
-data.players.online+" / "+data.players.max;
+animateCounter(data.players.online);
 }else{
 document.getElementById("serverStatusText").textContent="Server Offline";
 }
@@ -425,9 +507,21 @@ document.getElementById("serverStatusText").textContent="Server Offline";
 document.getElementById("serverStatusText").textContent="Status Unavailable";
 }
 }
+
+function animateCounter(target){
+let count=0;
+const el=document.getElementById("playerCount");
+const interval=setInterval(()=>{
+count++;
+el.textContent=count;
+if(count>=target) clearInterval(interval);
+},20);
+}
+
 fetchStatus();
 setInterval(fetchStatus,30000);
 
+/* particles */
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
