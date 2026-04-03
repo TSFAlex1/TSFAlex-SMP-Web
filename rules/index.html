@@ -29,7 +29,7 @@
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale;
             
-            /* Dynamic Background Gradient */
+            /* The base gradient background */
             background: linear-gradient(-45deg, #0a0f1f, #111a33, #0f3460, #16213e);
             background-size: 400% 400%;
             animation: gradientMove 15s ease infinite;
@@ -37,31 +37,52 @@
             overflow-x: hidden;
         }
         
-        /* Animated Background Grid Overlay */
-        body::after {
-            content: "";
+        @keyframes gradientMove { 
+            0% { background-position: 0% 50% } 
+            50% { background-position: 100% 50% } 
+            100% { background-position: 0% 50% } 
+        }
+
+        /* LAYER 1: The moving grid overlay */
+        .bg-grid {
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(0,195,255,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,195,255,0.05) 1px, transparent 1px);
+                linear-gradient(rgba(0,195,255,0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,195,255,0.07) 1px, transparent 1px);
             background-size: 60px 60px;
             animation: gridMove 25s linear infinite;
-            z-index: -2;
+            z-index: 1; /* Puts it above the background */
             pointer-events: none;
         }
 
-        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 60px 60px; } }
-        @keyframes gradientMove { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
+        @keyframes gridMove { 
+            from { background-position: 0 0; } 
+            to { background-position: 60px 60px; } 
+        }
         
-        /* Particle Canvas */
-        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        /* LAYER 2: The Particle Canvas */
+        #particles { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw;
+            height: 100vh;
+            z-index: 2; /* Puts it above the grid */
+            pointer-events: none; 
+        }
         
+        /* LAYER 10: Ensures all your actual content floats ABOVE the animations */
+        nav, header, .section, footer {
+            position: relative;
+            z-index: 10; 
+        }
+
         /* Navigation */
         nav {
             display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
             padding: 20px 40px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 100;
+            position: sticky; top: 0;
         }
         
         nav a { color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
@@ -75,40 +96,43 @@
         .section { padding: 40px 20px; max-width: 1000px; margin: auto; }
         
         .rule-card {
-            background: rgba(255,255,255,0.05);
+            background: rgba(10,15,31,0.6); /* Slightly darker card background so text pops */
             padding: 35px;
             border-radius: 15px;
             margin-bottom: 30px;
-            border: 1px solid rgba(0,195,255,0.1);
+            border: 1px solid rgba(0,195,255,0.2);
+            backdrop-filter: blur(5px);
             transition: transform 0.3s, border-color 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
         
-        .rule-card:hover { transform: translateY(-5px); border-color: rgba(0,195,255,0.4); background: rgba(0,195,255,0.07); }
+        .rule-card:hover { transform: translateY(-5px); border-color: rgba(0,195,255,0.6); background: rgba(0,195,255,0.05); }
         
         .rule-card h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.8rem; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid rgba(0,195,255,0.2); padding-bottom: 10px; }
         .rule-card h2::before { content: "§"; color: gold; font-size: 1.5rem; }
         
         .rule-list { list-style: none; }
-        .rule-list li { margin-bottom: 15px; padding-left: 25px; position: relative; color: #ccc; font-size: 1.1rem; }
+        .rule-list li { margin-bottom: 15px; padding-left: 25px; position: relative; color: #ddd; font-size: 1.1rem; }
         .rule-list li strong { color: white; display: inline-block; margin-bottom: 4px; }
         .rule-list li::before { content: "►"; position: absolute; left: 0; top: 2px; color: var(--primary); font-size: 0.9rem; }
 
-        .rule-card.anarchy { border-color: rgba(255,77,77,0.3); }
+        /* Specific Rule Categories */
+        .rule-card.anarchy { border-color: rgba(255,77,77,0.4); }
         .rule-card.anarchy:hover { border-color: var(--danger); background: rgba(255,77,77,0.05); }
         .rule-card.anarchy h2 { color: var(--danger); border-bottom-color: rgba(255,77,77,0.2); }
         .rule-card.anarchy .rule-list li::before { color: var(--danger); }
 
-        .rule-card.warning { border-color: rgba(255,184,77,0.3); }
+        .rule-card.warning { border-color: rgba(255,184,77,0.4); }
         .rule-card.warning:hover { border-color: var(--warning); background: rgba(255,184,77,0.05); }
         .rule-card.warning h2 { color: var(--warning); border-bottom-color: rgba(255,184,77,0.2); }
         .rule-card.warning .rule-list li::before { color: var(--warning); }
 
-        footer { text-align: center; padding: 40px; background: rgba(0,0,0,0.6); margin-top: 60px; color: #888; }
+        footer { text-align: center; padding: 40px; background: rgba(0,0,0,0.8); margin-top: 60px; color: #888; }
     </style>
 </head>
 <body>
 
+<div class="bg-grid"></div>
 <canvas id="particles"></canvas>
 
 <nav>
@@ -120,44 +144,47 @@
 
 <header>
     <h1>Complete Rulebook</h1>
-    <p style="color: #aaa; font-size: 1.2rem; max-width: 700px; margin: auto;">We operate on a "Semi-Anarchy" philosophy. You are free to play exactly how you want—as long as you aren't cheating or being toxic.</p>
+    <p style="color: #aaa; font-size: 1.2rem; max-width: 700px; margin: auto;">We operate on a "Semi-Anarchy" philosophy. You are free to play exactly how you want—as long as you aren't cheating or being a terrible person in chat. Read the details below.</p>
 </header>
 
 <section class="section">
     <div class="rule-card anarchy">
-        <h2>1. The "Anything Goes" Mechanics</h2>
+        <h2>1. The "Anything Goes" Gameplay Mechanics</h2>
         <ul class="rule-list">
-            <li><strong>Griefing is 100% Allowed:</strong> If you find a base, it is yours to destroy, raid, or take over. Hide your coordinates well.</li>
-            <li><strong>PvP & Killing:</strong> Player versus Player combat is enabled everywhere outside of spawn. You can kill anyone for any reason.</li>
-            <li><strong>Scamming & Deception:</strong> In-game betrayals, trade scams, and lying to other players are all part of the game.</li>
-            <li><strong>Trapping:</strong> Trap bases, portal traps, and TP trapping are completely allowed. Enter portals at your own risk.</li>
+            <li><strong>Griefing is 100% Allowed:</strong> If you find a base, it is yours to destroy, raid, or take over. There are no land claims. Hide your coordinates well, travel far, and build secure defenses.</li>
+            <li><strong>PvP & Killing:</strong> Player versus Player combat is enabled everywhere outside of spawn. You can kill anyone for their loot, for revenge, or just because you want to.</li>
+            <li><strong>Scamming & Deception:</strong> In-game betrayals, trade scams, and lying to other players are all part of the game. Trust no one.</li>
+            <li><strong>Trapping:</strong> Trap bases, portal traps, and TP (Teleport) trapping are completely allowed. Enter portals and accept teleport requests at your own risk.</li>
         </ul>
     </div>
 
     <div class="rule-card">
         <h2>2. Zero Tolerance for Cheating</h2>
         <ul class="rule-list">
-            <li><strong>Hacked Clients:</strong> Using clients like Meteor or Wurst that alter vanilla mechanics is a permanent ban.</li>
-            <li><strong>X-Ray:</strong> Using X-Ray texture packs or seed maps to locate ores/bases will result in a ban.</li>
-            <li><strong>Approved Mods:</strong> Performance mods (Optifine, Sodium), visual mods (Shaders), and schematic mods (without printer) are fine.</li>
+            <li><strong>Hacked Clients:</strong> Using clients like Meteor, Wurst, Aristois, or any similar software that alters vanilla mechanics is a permanent ban. This includes Killaura, Aimbot, Freecam, Auto-Totem, and Flight.</li>
+            <li><strong>X-Ray:</strong> Using X-Ray texture packs, mods, or mining using external seed maps to locate ores, bases, or dungeons will result in a ban.</li>
+            <li><strong>Auto-Clickers:</strong> Hardware macros, software auto-clickers, or "putting a weight on your mouse" for combat is cheating. (Using them specifically while AFK at a mob farm is allowed, but not in PvP).</li>
+            <li><strong>Allowed Mods:</strong> You are allowed to use performance mods (Optifine, Sodium, Lithium), visual mods (Shaders, Fullbright), minimaps (ONLY if entity/player radar is disabled), and schematic mods (Litematica, provided the "EasyPlace/Printer" function is OFF).</li>
         </ul>
     </div>
 
     <div class="rule-card warning">
         <h2>3. Exploits, Glitches & Lag</h2>
         <ul class="rule-list">
-            <li><strong>Item Duplication:</strong> Duping valuable items using glitches is banned and will result in an inventory wipe and ban.</li>
-            <li><strong>TNT / Carpet Duping:</strong> Duping TNT for world-eaters or carpets for fuel is generally accepted.</li>
-            <li><strong>Intentional Lag Machines:</strong> Building contraptions to crash the server is an immediate IP ban.</li>
+            <li><strong>Item Duplication:</strong> Duping valuable items (diamonds, shulkers, armor) using glitches or chunk overloading is strictly banned and will result in a wipe of your inventory and a ban.</li>
+            <li><strong>TNT / Carpet Duping:</strong> We understand the technical Minecraft community. Duping TNT for world-eaters or carpets for fuel is generally accepted.</li>
+            <li><strong>Intentional Lag Machines:</strong> Building redstone contraptions with the sole purpose of crashing the server or lagging out other players will result in an immediate, permanent IP ban.</li>
+            <li><strong>Entity Cramming:</strong> Keep your farms reasonable. Stacking 500 cows or villagers into a single chunk ruins the server TPS (Ticks Per Second) for everyone else. Staff may clear excessive entities without warning.</li>
         </ul>
     </div>
 
     <div class="rule-card">
         <h2>4. Chat Conduct ("Don't Be Mean")</h2>
         <ul class="rule-list">
-            <li><strong>Hate Speech:</strong> We do not tolerate racism, sexism, homophobia, or extreme harassment. Trash talking is fine, hate is not.</li>
-            <li><strong>Real-Life Threats & Doxxing:</strong> Threatening someone's real-life safety or sharing personal info is a permanent ban.</li>
-            <li><strong>Spam & Advertising:</strong> Do not spam the chat or advertise other servers/links.</li>
+            <li><strong>Hate Speech & Discrimination:</strong> We do not tolerate racism, sexism, homophobia, slurs, or extreme forms of harassment. Trash talking in PvP is fine, but crossing the line into targeted hate will get you removed.</li>
+            <li><strong>Real-Life Threats & Doxxing:</strong> Threatening someone's real-life safety, threatening to DDoS/Swat them, or releasing a player's personal real-world information (Doxxing) is a permanent, unappealable ban.</li>
+            <li><strong>Spam & Advertising:</strong> Do not spam the chat with repeated messages, excessive caps, or ASCII art. Advertising other Minecraft servers, Discord servers, or personal links is not allowed.</li>
+            <li><strong>Impersonation:</strong> Pretending to be an Admin, Moderator, or famous Content Creator to extort or deceive other players will result in a severe punishment.</li>
         </ul>
     </div>
 </section>
@@ -170,23 +197,30 @@
     const ctx = canvas.getContext("2d");
     let particles = [];
 
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
     
     function initParticles() {
         particles = [];
         for (let i = 0; i < 70; i++) {
             particles.push({
-                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                r: Math.random() * 2 + 0.5, d: Math.random() * 0.5 + 0.2
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 0.5,
+                d: Math.random() * 0.5 + 0.2
             });
         }
     }
 
     function drawParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "rgba(0,195,255,0.3)";
+        ctx.fillStyle = "rgba(0,195,255,0.4)";
         particles.forEach(p => {
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
             p.y += p.d;
             if (p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
         });
@@ -194,7 +228,11 @@
     }
 
     window.addEventListener("resize", () => { resizeCanvas(); initParticles(); });
-    resizeCanvas(); initParticles(); drawParticles();
+    
+    // Initialize
+    resizeCanvas();
+    initParticles();
+    drawParticles();
 </script>
 </body>
 </html>
