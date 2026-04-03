@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSFAlex SMP | Apply</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00c3ff;
+            --secondary: #0a0f1f;
+            --accent: #16213e;
+            --text: #ffffff;
+        }
+        
+        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+        
+        html, body, button, input {
+            font-family: 'Minecraft', sans-serif !important;
+            letter-spacing: 1px;
+        }
+        
+        body {
+            /* Layout */
+            min-height: 100vh;
+            overflow-x: hidden;
+            
+            /* Typography Upgrades */
+            color: var(--text);
+            font-size: 20px; 
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            
+            /* Dynamic Background */
+            background: linear-gradient(-45deg, #0a0f1f, #111a33, #0f3460, #16213e);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,195,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,195,255,0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 25s linear infinite;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+        @keyframes gradientMove { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
+        
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        
+        nav {
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            padding: 20px 40px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        
+        nav a { color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        nav a:hover { color: var(--primary); }
+        .hub-link { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--primary); }
+        
+        header { text-align: center; padding: 60px 20px 20px; }
+        h1 { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--primary); margin-bottom: 10px; }
+        
+        .section { padding: 40px 20px; max-width: 900px; margin: auto; text-align: center; }
+        
+        .form-container {
+            background: rgba(255,255,255,0.02);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,195,255,0.2);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            margin-top: 30px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container iframe {
+            width: 100%;
+            max-width: 750px;
+            height: 3850px;
+            border: none;
+            border-radius: 10px;
+            background: white; 
+        }
+
+        footer { text-align: center; padding: 40px; background: rgba(0,0,0,0.6); margin-top: 60px; color: #888; }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<nav>
+    <div><strong>TSFAlex SMP</strong></div>
+    <div>
+        <a href="../index.html" class="hub-link">← Back to Main Server</a>
+    </div>
+</nav>
+
+<header>
+    <h1>Staff Applications</h1>
+    <p style="color: #aaa;">We are currently looking for dedicated players to join our Moderation team.</p>
+</header>
+
+<section class="section">
+    <p style="margin-bottom: 20px; color: #ccc;">
+        Please fill out the form below truthfully. Applications are reviewed every Sunday.<br>
+        <strong>Note:</strong> Asking staff to read your application will result in automatic denial.
+    </p>
+
+    <div class="form-container">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeIGLb--nyfXvQY2BBwB2XQ1GzAhL6kHUer1VOcO9Iq48WLRw/viewform?embedded=true" width="640" height="3813" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    </div>
+</section>
+
+<footer>© 2026 TSFAlex SMP. Good luck!</footer>
+
+<script>
+    /* Improved High-Performance Particles */
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 0.5,
+                d: Math.random() * 0.5 + 0.2
+            });
+        }
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(0,195,255,0.4)";
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+            p.y += p.d;
+            if (p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
+        });
+        requestAnimationFrame(drawParticles); // 60 FPS smooth animation
+    }
+
+    window.addEventListener("resize", () => { resizeCanvas(); initParticles(); });
+    resizeCanvas();
+    initParticles();
+    drawParticles();
+</script>
+</body>
+</html>

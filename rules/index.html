@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSFAlex SMP | Rules</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00c3ff;
+            --secondary: #0a0f1f;
+            --accent: #16213e;
+            --text: #ffffff;
+        }
+        
+        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+        
+        html, body, button, input {
+            font-family: 'Minecraft', sans-serif !important;
+            letter-spacing: 1px;
+        }
+        
+        body {
+            /* Layout */
+            min-height: 100vh;
+            overflow-x: hidden;
+            
+            /* Typography Upgrades */
+            color: var(--text);
+            font-size: 20px; 
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            
+            /* Dynamic Background */
+            background: linear-gradient(-45deg, #0a0f1f, #111a33, #0f3460, #16213e);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,195,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,195,255,0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 25s linear infinite;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+        @keyframes gradientMove { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
+        
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        
+        nav {
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            padding: 20px 40px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        
+        nav a { color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        nav a:hover { color: var(--primary); }
+        
+        .hub-link { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--primary); }
+        
+        header { text-align: center; padding: 80px 20px 40px; }
+        h1 { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--primary); margin-bottom: 10px; }
+        
+        .section { padding: 40px 20px; max-width: 900px; margin: auto; }
+        
+        .rule-card {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0,195,255,0.1);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        
+        .rule-card:hover { transform: translateY(-5px); border-color: rgba(0,195,255,0.4); background: rgba(0,195,255,0.05); }
+        
+        .rule-card h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .rule-card h2::before { content: "§"; color: gold; }
+        
+        .rule-list { list-style: none; }
+        .rule-list li { margin-bottom: 12px; padding-left: 25px; position: relative; color: #ccc; }
+        .rule-list li::before {
+            content: "►"; position: absolute; left: 0; top: 2px; color: var(--primary); font-size: 0.8rem;
+        }
+
+        footer { text-align: center; padding: 40px; background: rgba(0,0,0,0.6); margin-top: 60px; color: #888; }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<nav>
+    <div><strong>TSFAlex SMP</strong></div>
+    <div>
+        <a href="../index.html" class="hub-link">← Back to Main Server</a>
+    </div>
+</nav>
+
+<header>
+    <h1>Server Rules</h1>
+    <p style="color: #aaa;">Please read these carefully. Ignorance of the rules is not an excuse.</p>
+</header>
+
+<section class="section">
+    <div class="rule-card">
+        <h2>1. General Conduct</h2>
+        <ul class="rule-list">
+            <li><strong>Be Respectful:</strong> Harassment, hate speech, sexism, racism, or severe toxicity will result in an immediate and permanent ban.</li>
+            <li><strong>No Advertising:</strong> Do not advertise other Minecraft servers, Discord servers, or personal links in chat.</li>
+            <li><strong>Keep Chat Clean:</strong> Spamming, excessive caps, or starting massive arguments in global chat is not allowed.</li>
+        </ul>
+    </div>
+
+    <div class="rule-card">
+        <h2>2. Gameplay & Modifications</h2>
+        <ul class="rule-list">
+            <li><strong>No Cheating or Hacking:</strong> X-Ray, fly hacks, combat modifications (killaura), or any client that gives an unfair advantage are strictly forbidden.</li>
+            <li><strong>Approved Mods:</strong> Optifine, Sodium, minimaps (without player/cave tracking), and schematic mods (without printer) are allowed.</li>
+            <li><strong>Exploits:</strong> Duplication glitches (except TNT/Carpet duping, if approved by staff) and server-crashing exploits are bannable.</li>
+        </ul>
+    </div>
+
+    <div class="rule-card">
+        <h2>3. Griefing & Raiding</h2>
+        <ul class="rule-list">
+            <li><strong>No Griefing:</strong> Destroying or altering another player's build without their permission is prohibited.</li>
+            <li><strong>No Stealing:</strong> Taking items from chests, shulkers, or barrels that do not belong to you is not allowed. All chests are logged.</li>
+            <li><strong>PvP Restrictions:</strong> Player vs. Player combat is only allowed if both parties agree to it beforehand. No random killing.</li>
+        </ul>
+    </div>
+</section>
+
+<footer>© 2026 TSFAlex SMP. Play fair, have fun.</footer>
+
+<script>
+    /* Improved High-Performance Particles */
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 0.5,
+                d: Math.random() * 0.5 + 0.2
+            });
+        }
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(0,195,255,0.4)";
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+            p.y += p.d;
+            if (p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
+        });
+        requestAnimationFrame(drawParticles); // 60 FPS smooth animation
+    }
+
+    window.addEventListener("resize", () => { resizeCanvas(); initParticles(); });
+    resizeCanvas();
+    initParticles();
+    drawParticles();
+</script>
+</body>
+</html>
